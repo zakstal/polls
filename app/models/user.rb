@@ -34,36 +34,18 @@ class User < ActiveRecord::Base
             FROM
             responses
             WHERE
-            responses.user_id = ?
+            responses.user_id = 1
         ) ours
       ON
       ours.answer_choice_id = answer_choices.id
       GROUP BY
       polls.id
+      HAVING
+      COUNT(questions.id) = COUNT(ours.id)
     SQL
 
-    User.find_by_sql()
+    Poll.find_by_sql([poll_count, self.id])
 
   end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    SQL
-
-  end
 end
